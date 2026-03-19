@@ -1,0 +1,25 @@
+Дата и время запуска: 2026-03-19
+Способ запуска: ручной
+
+Использована команда:
+docker exec -it 63f78ee374ad php /bitnami/moodle/admin/cli/cron.php     
+
+Результат выполнения:
+Ran 0 adhoc tasks found at Thu, 19 Mar 2026 07:17:57 +0000
+Cron run completed correctly
+Cron completed at 07:17:57 in 0.047559 seconds. Memory used: 18.9 MB. Continuing to check for tasks for 180 more seconds.
+Ran 0 adhoc tasks found at Thu, 19 Mar 2026 07:17:58 +0000
+Cron run completed correctly
+Cron completed at 07:17:58 in 0.013716 seconds. Memory used: 19.3 MB. Continuing to check for tasks for 179 more seconds.
+Ran 0 adhoc tasks found at Thu, 19 Mar 2026 07:17:59 +0000
+Cron run completed correctly
+Cron completed at 07:17:59 in 0.021122 seconds. Memory used: 19.3 MB. Continuing to check for tasks for 178 more seconds.
+Ran 0 adhoc tasks found at Thu, 19 Mar 2026 07:18:00 +0000
+Cron run completed correctly
+Cron completed at 07:18:00 in 0.015237 seconds. Memory used: 19.3 MB. Continuing to check for tasks for 177 more seconds.
+Execute scheduled task: Cleanup event monitor events (tool_monitor\task\clean_events)
+... started 07:18:01. Current memory use 19.5 MB.
+... used 0 dbqueries
+... used 0.019484996795654 seconds   
+
+Вывод: cron успешно запущен  вручную, фоновые задачи выполняются. 

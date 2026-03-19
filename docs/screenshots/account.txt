@@ -1,0 +1,5 @@
+Имя пользователя: teacher_sotnikov
+Новый пароль: Sotnikov.1)
+
+Имя пользователя: student_margo
+Новый пароль: Margo.1)
