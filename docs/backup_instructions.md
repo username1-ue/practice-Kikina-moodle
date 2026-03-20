@@ -1,53 +1,97 @@
-# Инструкция по резервному копированию файлов
+Вариант 1: Резервное копирование с помощью Git
+Инициализация репозитория
+bash
+# Создать папку для проекта
+mkdir myproject
+cd myproject
 
-## Способ 1: cp (Linux/Mac)
-
-```bash
-# Копирование с датой
-cp -r ~/Documents ~/Backup/Documents_$(date +%Y%m%d)
-
-# Создание архива
-tar -czf backup_$(date +%Y%m%d).tar.gz /путь/к/папке
-
-# Распаковка архива
-tar -xzf backup_20260320.tar.gz
-```
-
-## Способ 2: Git
-
-```bash
-# Инициализация
+# Инициализировать Git репозиторий
 git init
+
+# Добавить файлы
 git add .
 git commit -m "Initial commit"
+Создание бэкапа через Git
+bash
+# Посмотреть историю изменений
+git log
 
-# Отправка на GitHub
-git remote add origin https://github.com/ваш_логин/repo.git
+# Вернуться к предыдущей версии
+git checkout commit_hash
+
+# Создать бэкап на GitHub
+git remote add origin https://github.com/username/repo.git
 git push -u origin main
-```
 
-## Способ 3: Автоматический скрипт (backup.sh)
-
-```bash
+Вариант 2: Автоматический скрипт бэкапа
+Скрипт backup.sh
+bash
 #!/bin/bash
-SOURCE="/home/пользователь/Documents"
-DATE=$(date +%Y%m%d_%H%M%S)
-tar -czf /backup/backup_$DATE.tar.gz $SOURCE
-echo "Бэкап создан"
-```
+# Автоматическое резервное копирование
 
-## Способ 4: Windows PowerShell (backup.ps1)
+BACKUP_DIR="/backup/$(date +%Y%m%d_%H%M%S)"
+SOURCE_DIR="/home/user/documents"
 
-```powershell
+# Создать папку для бэкапа
+mkdir -p $BACKUP_DIR
+
+# Скопировать файлы
+cp -r $SOURCE_DIR $BACKUP_DIR
+
+# Создать архив
+tar -czf $BACKUP_DIR/backup.tar.gz -C $BACKUP_DIR .
+
+# Удалить временные файлы
+rm -rf $SOURCE_DIR
+
+echo "Бэкап создан: $BACKUP_DIR/backup.tar.gz"
+Настройка автоматического запуска (cron)
+bash
+# Редактировать crontab
+crontab -e
+
+# Добавить строку для ежедневного бэкапа в 2:00 ночи
+0 2 * * * /home/user/backup.sh >> /var/log/backup.log 2>&1
+
+Вариант 3: Для Windows (PowerShell)
+Скрипт backup.ps1
+powershell
+# PowerShell скрипт для бэкапа
 $source = "C:\Users\Администратор\Documents"
-$date = Get-Date -Format "yyyyMMdd_HHmmss"
-Compress-Archive -Path $source -DestinationPath "D:\Backup\backup_$date.zip"
-Write-Host "Бэкап создан"
-```
+$destination = "D:\Backup\Documents_$(Get-Date -Format 'yyyyMMdd')"
 
-## Правило 3-2-1
-- **3** копии данных
-- **2** разных носителя
-- **1** копия вне офиса
+# Копирование
+Copy-Item -Path $source -Destination $destination -Recurse -Force
 
-*Инструкция для курса "Работа с файлами"*
+# Создание ZIP архива
+Compress-Archive -Path $destination -DestinationPath "$destination.zip"
+
+Write-Host "Бэкап создан: $destination.zip"
+Планировщик задач Windows
+Откройте "Планировщик задач"
+
+Создайте задачу
+
+Укажите триггер: ежедневно в 2:00
+
+Действие: запуск PowerShell с параметром -File C:\scripts\backup.ps1
+
+Проверка бэкапа
+bash
+# Проверить, что бэкап создан
+ls -la /backup/
+
+# Проверить целостность архива
+tar -tzf backup.tar.gz
+
+# Восстановить из бэкапа
+tar -xzf backup.tar.gz -C /путь/восстановления
+
+Рекомендации
+1.Правило 3-2-1: 3 копии, 2 разных носителя, 1 копия вне офиса
+2.Регулярность: Ежедневные бэкапы важных данных
+3.Проверка: Периодически проверяйте, что бэкапы восстанавливаются
+4.Шифрование: Храните бэкапы в зашифрованном виде
+5.Автоматизация: Используйте cron или планировщик задач
+
+Инструкция подготовлена для курса "Работа с файлами"
